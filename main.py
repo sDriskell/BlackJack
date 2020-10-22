@@ -50,6 +50,21 @@ def manage_ace(hand: list, points):
             return points
 
 
+#TODO: determine if player or dealer hit
+
+
+#TODO: compare hands to see who wins
+
+
+#TODO: Track win/losses
+
+
+#TODO: Display win percentages
+
+
+#TODO: Make manual Blackjack game
+
+
 def automatic_black_jack():
     """Automatically run the game(s) and generate statistical data from it"""
     win_total = 0
@@ -77,8 +92,6 @@ def automatic_black_jack():
 
         player_points = manage_ace(player_hand, player_points)
         dealer_points = manage_ace(dealer_hand, dealer_points)
-
-
 
         player_hand.clear()
         dealer_hand.clear()
