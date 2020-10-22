@@ -50,8 +50,17 @@ def manage_ace(hand: list, points):
             return points
 
 
-#TODO: determine if player or dealer hit
+def chance_to_win(player_points, dealer_points):
+    """Winningness of cards based on initially dealt"""
+    if player_points <= dealer_points:
+        return 0, 1
+    else:
+        return 1, 0
 
+
+#TODO: determine if player or dealer hit
+def hit_or_stay(points):
+    pass
 
 #TODO: compare hands to see who wins
 
@@ -70,6 +79,9 @@ def automatic_black_jack():
     win_total = 0
     loss_total = 0
     temp_total = 0
+
+    chance_win_total = 0
+    chance_loss_total = 0
 
     games_played_counter = 0
 
@@ -95,6 +107,10 @@ def automatic_black_jack():
 
         player_hand.clear()
         dealer_hand.clear()
+
+        win, loss = chance_to_win(player_points, dealer_points)
+        chance_win_total += win
+        chance_loss_total += loss
 
 
 def main():
