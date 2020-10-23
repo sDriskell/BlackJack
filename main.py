@@ -48,8 +48,7 @@ def manage_ace(hand: list, points):
     for card in hand:
         if card[1] == 'A' and points > 21:
             points -= 10
-        else:
-            return points
+    return points
 
 
 def compare_hands(player_points, dealer_points):
