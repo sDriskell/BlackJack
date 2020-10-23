@@ -70,12 +70,13 @@ def hit_or_stay(deck: list, hand: list, points):
 
 def convert_card_to_points(card):
     """Convert the card to a point value instead of face"""
-    if card[1] in ['J', 'Q', 'K']:
+    if card in ['J', 'Q', 'K']:
         return 10
-    elif card[1] is 'A':
+    elif card == 'A':
         return 11
     else:
-        return int(card[1])
+        return int(card)
+    # I feel this would be better if I took a hand: list and returned a tuple of ints.
 
 
 #TODO: Track starting points with regards to player vs dealer's initial hand
@@ -83,8 +84,9 @@ def track_chance_to_win(player_hand: list, dealer_hand: list):
     dealer_points = count_card_total(dealer_hand)
     dealer_points = manage_ace(dealer_hand, dealer_points)
 
-    player_card_0 = player_hand[0][1]
-    player_card_1 = player_hand[1][1]
+    player_card_0 = convert_card_to_points(player_hand[0][1])
+    player_card_1 = convert_card_to_points(player_hand[1][1])
+    print(player_card_0, player_card_1)
 
 
 #TODO: Make manual Blackjack game
