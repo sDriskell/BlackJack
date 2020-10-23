@@ -50,22 +50,21 @@ def manage_ace(hand: list, points):
             return points
 
 
-def chance_to_win(player_points, dealer_points):
-    """Winningness of cards based on initially dealt"""
+def compare_hands(player_points, dealer_points):
+    """Winningness of initially dealt hand"""
     if player_points <= dealer_points:
         return 0, 1
     else:
         return 1, 0
 
 
-#TODO: determine if player or dealer hit
-def hit_or_stay(points):
-    pass
-
-#TODO: compare hands to see who wins
-
-
-#TODO: Track win/losses
+#TODO: Be able to change the value of an ACE to count as 1 or 11
+def hit_or_stay(deck: list, hand: list, points):
+    """Determine to hit if less than 16 points in hand"""
+    while points <= 16:
+        hand.append(deck.pop())
+        points = count_card_total(hand)
+    return deck, hand, points
 
 
 #TODO: Display win percentages
@@ -79,10 +78,8 @@ def automatic_black_jack():
     win_total = 0
     loss_total = 0
     temp_total = 0
-
     chance_win_total = 0
     chance_loss_total = 0
-
     games_played_counter = 0
 
     results_table = [[0 for x in range(1, 11)] for y in range(1, 11)]
@@ -105,13 +102,30 @@ def automatic_black_jack():
         player_points = manage_ace(player_hand, player_points)
         dealer_points = manage_ace(dealer_hand, dealer_points)
 
-        player_hand.clear()
-        dealer_hand.clear()
-
-        win, loss = chance_to_win(player_points, dealer_points)
+        win, loss = compare_hands(player_points, dealer_points)
         chance_win_total += win
         chance_loss_total += loss
 
+        deck, player_hand, player_points = hit_or_stay(deck,
+                                                       player_hand,
+                                                       player_points)
+        deck, dealer_hand, dealer_points = hit_or_stay(deck,
+                                                       dealer_hand,
+                                                       dealer_points)
+        print("player: ", player_hand, player_points)
+        print("dealer: ", dealer_hand, dealer_points)
+        win, loss = compare_hands(player_points,dealer_points)
+        win_total += win
+        loss_total += loss
+
+        player_hand.clear()
+        dealer_hand.clear()
+    print("Chance to win: ", chance_win_total)
+    print("Chance to lose: ", chance_loss_total)
+    print("-"*20)
+    print("Win: ", win_total)
+    print("Lose: ", loss_total)
+    print("-"*20)
 
 def main():
     automatic_black_jack()
