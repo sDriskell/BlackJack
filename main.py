@@ -5,7 +5,9 @@ Runs multiple hands of Blackjack to simulate chances to win with starting
 hand versus the dealer.
 """
 import random
+import plotly.graph_objects as go
 
+RESULTS_TABLE = [[0 for x in range(1, 11)] for y in range(1, 11)]
 
 def create_deck():
     """Create a deck of cards"""
@@ -58,7 +60,6 @@ def compare_hands(player_points, dealer_points):
         return 1, 0
 
 
-#TODO: Be able to change the value of an ACE to count as 1 or 11
 def hit_or_stay(deck: list, hand: list, points):
     """Determine to hit if less than 16 points in hand"""
     while points <= 16:
@@ -67,7 +68,15 @@ def hit_or_stay(deck: list, hand: list, points):
     return deck, hand, points
 
 
-#TODO: Display win percentages
+#TODO: Track starting points with regards to player vs dealer's initial hand
+def track_chance_to_win(player_hand: list, dealer_hand: list):
+    dealer_points = count_card_total(dealer_hand)
+    dealer_points = manage_ace(dealer_hand, dealer_points)
+
+    player_card_0 = player_hand[0][1]
+    player_card_1 = player_hand[1][1]
+
+
 
 
 #TODO: Make manual Blackjack game
@@ -77,15 +86,10 @@ def automatic_black_jack():
     """Automatically run the game(s) and generate statistical data from it"""
     win_total = 0
     loss_total = 0
-    temp_total = 0
+
     chance_win_total = 0
     chance_loss_total = 0
     games_played_counter = 0
-
-    results_table = [[0 for x in range(1, 11)] for y in range(1, 11)]
-
-    player_hand = []
-    dealer_hand = []
 
     games = int(input("How many games do you want to simulate? "))
 
@@ -106,26 +110,29 @@ def automatic_black_jack():
         chance_win_total += win
         chance_loss_total += loss
 
+        track_chance_to_win(player_hand, dealer_hand)
+
         deck, player_hand, player_points = hit_or_stay(deck,
                                                        player_hand,
                                                        player_points)
         deck, dealer_hand, dealer_points = hit_or_stay(deck,
                                                        dealer_hand,
                                                        dealer_points)
-        print("player: ", player_hand, player_points)
-        print("dealer: ", dealer_hand, dealer_points)
+
         win, loss = compare_hands(player_points,dealer_points)
         win_total += win
         loss_total += loss
 
         player_hand.clear()
         dealer_hand.clear()
+
     print("Chance to win: ", chance_win_total)
     print("Chance to lose: ", chance_loss_total)
     print("-"*20)
     print("Win: ", win_total)
     print("Lose: ", loss_total)
     print("-"*20)
+
 
 def main():
     automatic_black_jack()
