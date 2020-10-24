@@ -37,7 +37,7 @@ def test_hit_or_stay():
     hand = [('Heart', '5'), ('Spade', '10')]
     points = 15
     deck, hand, points = blackjack.hit_or_stay(deck, hand, points)
-    assert points == 25
+    assert points == 26
 
 
 def test_convert_cards_to_points():
