@@ -95,10 +95,23 @@ def track_chance_to_win(player_hand: list, dealer_hand: list):
         RESULTS_TABLE[player_card_0 - 1][player_card_1 - 1] += 1
 
 
-def chance_to_win_percentage(games):
-    """Turn table into a percentage chart"""
+def even_out_table():
+    """Compiles similar card points so table has equal values"""
     for i in range(1, len(RESULTS_TABLE)):
         for j in range(1, len(RESULTS_TABLE)):
+            total = RESULTS_TABLE[i][j] + RESULTS_TABLE[j][i]
+            RESULTS_TABLE[i][j] = total
+            RESULTS_TABLE[j][i] = total
+
+    for i in range(1, len(RESULTS_TABLE)):
+        for j in range(1, len(RESULTS_TABLE)):
+            RESULTS_TABLE[i][j] = RESULTS_TABLE[i][j] / 2
+
+
+def chance_to_win_percentage(games):
+    """Turn table into a percentage chart"""
+    for i in range(0, 11):
+        for j in range(0, 11):
             card_win_percentage = RESULTS_TABLE[i][j]
             card_win_percentage = (card_win_percentage/games)*100
             RESULTS_TABLE[i][j] = f"{card_win_percentage:.2f}"
@@ -167,6 +180,7 @@ def automatic_black_jack():
     print("Lose: ", loss_total)
     print("-"*20)
 
+    even_out_table()
     chance_to_win_percentage(games)
     visualize_chance_to_win()
 
