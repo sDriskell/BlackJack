@@ -5,9 +5,9 @@ Runs multiple hands of Blackjack to simulate chances to win with starting
 hand versus the dealer.
 """
 import random
-import plotly.graph_objects as go
+from pandas import *
 
-RESULTS_TABLE = [[0 for x in range(1, 11)] for y in range(1, 11)]
+RESULTS_TABLE = [[0 for x in range(1, 12)] for y in range(1, 12)]
 
 
 def create_deck():
@@ -54,7 +54,9 @@ def manage_ace(hand: list, points):
 
 def compare_hands(player_points, dealer_points):
     """Winningness of initially dealt hand"""
-    if player_points <= dealer_points:
+    if player_points == 22:
+        return 0, 1
+    elif player_points <= dealer_points:
         return 0, 1
     else:
         return 1, 0
@@ -79,14 +81,34 @@ def convert_card_to_points(card):
     # I feel this would be better if I took a hand: list and returned a tuple of ints.
 
 
-#TODO: Track starting points with regards to player vs dealer's initial hand
 def track_chance_to_win(player_hand: list, dealer_hand: list):
+    """Generate number of wins per hand combination"""
     dealer_points = count_card_total(dealer_hand)
     dealer_points = manage_ace(dealer_hand, dealer_points)
 
     player_card_0 = convert_card_to_points(player_hand[0][1])
     player_card_1 = convert_card_to_points(player_hand[1][1])
-    print(player_card_0, player_card_1)
+
+    player_points = player_card_0 + player_card_1
+
+    if player_points > dealer_points and player_points < 22:
+        RESULTS_TABLE[player_card_0 - 1][player_card_1 - 1] += 1
+
+
+def chance_to_win_percentage(games):
+    """Turn table into a percentage chart"""
+    for i in range(1, len(RESULTS_TABLE)):
+        for j in range(1, len(RESULTS_TABLE)):
+            card_win_percentage = RESULTS_TABLE[i][j]
+            card_win_percentage = (card_win_percentage/games)*100
+            RESULTS_TABLE[i][j] = f"{card_win_percentage:.2f}"
+
+
+def visualize_chance_to_win():
+    """Generate visual table of card chances"""
+    print(DataFrame(RESULTS_TABLE,
+          columns=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"],
+          index=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]))
 
 
 #TODO: Make manual Blackjack game
@@ -144,6 +166,9 @@ def automatic_black_jack():
     print("Win: ", win_total)
     print("Lose: ", loss_total)
     print("-"*20)
+
+    chance_to_win_percentage(games)
+    visualize_chance_to_win()
 
 
 def main():
