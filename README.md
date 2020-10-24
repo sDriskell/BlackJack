@@ -5,6 +5,4 @@ The purpose of this application is to simulate N hands of Blackjack, tally wins 
 
 # TODO:
 
--Generate chart showing actual win percentage
-
 -Create a manual function to allower user to play game without automated process (extra)
