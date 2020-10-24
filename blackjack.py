@@ -126,12 +126,20 @@ def visualize_chance_to_win():
           index=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"])
     html = df.to_html()
     results_file = open("table_results.html", "w")
+    results_file.write("""  
+        <head>
+        <h1>Chance To Win</h1>
+        <p>This compares your initially dealt cards versus the dealer's
+        dealt cards and determines the % chance to be dealt and win with that
+        specific hand.</p>
+        </head>""")
     results_file.write(html)
     results_file.close()
 
     file_path = pathlib.Path.cwd() / "table_results.html"
     file_path = str(file_path)
     webbrowser.open_new_tab(file_path)
+
 
 #TODO: Make manual Blackjack game
 def manual_blacK_jack():
@@ -147,7 +155,7 @@ def automatic_black_jack():
     chance_loss_total = 0
     games_played_counter = 0
 
-    games = int(input("How many games do you want to simulate? "))
+    games = int(input("How many games of Blackjack do you want to simulate? "))
 
     while games_played_counter < games:
         games_played_counter += 1
