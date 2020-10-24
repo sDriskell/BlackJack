@@ -5,7 +5,9 @@ Runs multiple hands of Blackjack to simulate chances to win with starting
 hand versus the dealer.
 """
 import random
-from pandas import *
+import pathlib
+import webbrowser
+from pandas import DataFrame
 
 RESULTS_TABLE = [[0 for x in range(1, 12)] for y in range(1, 12)]
 
@@ -119,10 +121,17 @@ def chance_to_win_percentage(games):
 
 def visualize_chance_to_win():
     """Generate visual table of card chances"""
-    print(DataFrame(RESULTS_TABLE,
+    df = DataFrame(RESULTS_TABLE,
           columns=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"],
-          index=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]))
+          index=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"])
+    html = df.to_html()
+    results_file = open("table_results.html", "w")
+    results_file.write(html)
+    results_file.close()
 
+    file_path = pathlib.Path.cwd() / "table_results.html"
+    file_path = str(file_path)
+    webbrowser.open_new_tab(file_path)
 
 #TODO: Make manual Blackjack game
 def manual_blacK_jack():
