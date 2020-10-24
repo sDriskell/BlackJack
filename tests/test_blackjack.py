@@ -24,21 +24,17 @@ def test_manage_ace():
 def test_hit_or_stay():
     deck = [('Club', '2'), ('Club', '10'), ('Club', 'A'), ('Club', '8')]
 
-    hand = [('Heart', '7'), ('Spade', '10')]
-    points = 17
-    deck, hand, points = blackjack.hit_or_stay(deck, hand, points)
+    deck, hand, points = blackjack.hit_or_stay(deck, [('Heart', '7'), ('Spade', '10')], 17)
     assert points == 17
 
-    hand = [('Heart', '7'), ('Spade', '5')]
-    points = 12
-    deck, hand, points = blackjack.hit_or_stay(deck, hand, points)
+    deck, hand, points = blackjack.hit_or_stay(deck, [('Heart', '7'), ('Spade', '5')], 12)
     assert points == 20
 
-    hand = [('Heart', '5'), ('Spade', '10')]
-    points = 15
-    deck, hand, points = blackjack.hit_or_stay(deck, hand, points)
+    deck, hand, points = blackjack.hit_or_stay(deck, [('Heart', '5'), ('Spade', '10')], 15)
     assert points == 26
 
 
 def test_convert_cards_to_points():
-    pass
+    assert blackjack.convert_card_to_points(("Spade", "2")) == 2
+    assert blackjack.convert_card_to_points(("Diamond", "K")) == 10
+    assert blackjack.convert_card_to_points(("Club", "A")) == 11
